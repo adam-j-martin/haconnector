@@ -43,6 +43,37 @@ A single Booking object with all its details
     + Body
 
             { "id": 2, "title": "Pick-up posters from post-office" }
+            
+### Update a Booking [PATCH]
++ Request (application/json)
 
-### Remove a Note [DELETE]
+        { "title": "Buy cheese and bread for breakfast." }
+        
++ Request (application/xml)
+
+        <title>Buy cheese and bread for breakfast.</title>
+
++ Response 200
+
+
+### Remove a Booking [DELETE]
 + Response 204
+
+## Quotation [/bookings/{id}/quotation]
+A single quotation with all its details
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Booking to perform action with.
+
+### Retrieve Quotation [GET]
+Get the Quotation associated with a specific booking
++ Response 200 (application/json)
+
+## Ledger [/bookings/{id}/ledger]
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Booking to perform action with.
+
+### Retrieve Ledger [GET]
+Get the Ledger associated with a specific booking
++ Response 200 (application/json)
