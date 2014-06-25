@@ -12,7 +12,7 @@ A user's email address and password can be provided as auth credentials, for exa
     $ curl -u email:password https://api.hanmeraccommodation.co.nz/bookings
 
 ## Requests
-The base URL of the API is `http://api.hanmeraccommodation.co.nz`
+The base URL of the API is `https://api.hanmeraccommodation.co.nz`
 
 ## HTTP Verbs
 We use standard HTTP verbs to indicate intent of a request:
@@ -27,7 +27,7 @@ We use standard HTTP verbs to indicate intent of a request:
 If you are using an HTTP client that doesn't support `PUT`, `PATCH` or `DELETE` requests, 
 send a `POST` request with an `X-HTTP-Method-Override` header specifying the desired verb. For example:
 
-    $ curl -u token:X https://site.supportfu.com/api/v1/users/543abc \
+    $ curl -u token:X https://api.hanmeraccommodation.co.nz/543abc \
         -X POST \
         -H "X-HTTP-Method-Override: DELETE"
 
