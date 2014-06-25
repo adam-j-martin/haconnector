@@ -90,6 +90,111 @@ All responses include headers describing the current rate limit status:
 
 >Rate-Limit-Reset: 20
 
+## Field Filtering
+All responses from the API can limit fields to only the fields you need. Just pass 
+in a fields query parameter with a comma separated list of fields you need. For example:
+
+    GET /bookings/?fields=id,first_name,email
+
+Would have the following response body:
+
+    [
+      {
+        "id": "543abc",
+        "first_name": "John",
+        "email": "john@example.com"
+      },
+      {
+        "id": "543add",
+        "first_name": "Alice",
+        "email": "alice@example.com
+      }
+    ]
+    
+## Embedding
+Many endpoints support embedding related resources to minimize the number of 
+required API round trips.
+
+Embedding is triggered by passing in an embed query parameter, which takes a comma 
+separated list of endpoint types.
+
+    GET /bookings/543abc?embed=quoatation
+    
+Only certain resource types can be embedded from certain endpoints. The endpoint 
+documentation specifies which ones can be embedded.
+
+Each embedded type uses an additional rate limit credit.
+
+## Counting
+All endpoints that return a collection can provide a count of the total number of 
+results. To request a count, just include a `count=true` as a query parameter. 
+The count will be returned in a header `Total-Count`.
+
+>200 OK
+
+>**Total-Count: 135**
+
+>Rate-Limit-Limit: 200
+
+>Rate-Limit-Remaining: 199
+
+>Rate-Limit-Used: 1
+
+>Rate-Limit-Reset: 20
+
+>Content-Type: application/json
+
+Note that the count represents the total amount of available results, not the 
+amount returned as part of the current response.
+
+Counting uses an additional rate limit credit.
+
+## Enveloping
+If your HTTP client makes it difficult to read status codes or headers, we can 
+package everything neatly into the response body. Just include envelope=true as a 
+request parameter and the API will always return a 200 HTTP status code. The real 
+status, headers and response will be within the body.
+
+    GET /bookings/1234?envelope=true
+
+If booking 1234 does not exist then the following would be returned:
+
+    {
+      "status": 404,
+      "headers": {
+        "Rate-Limit-Limit": 200,
+        "Rate-Limit-Remaining": 150,
+        "Rate-Limit-Used": 0,
+        "Rate-Limit-Reset": 25
+    },
+      "response": {
+        "message": "Not Found"
+    }
+  }
+
+## Pagination
+Requests for collections can return between 0 and 100 results, controlled using 
+the per_page and page query parameters. 
+All end points are limited to 10 results by default.
+
+    GET /bookings?per_page=15&page=2
+    
+Not all endpoints support pagination. If they do, it will be mentioned in their documentation.
+
+## Sorting
+Some endpoints offer result sorting, triggered using the sort query parameter. 
+The value of sort is a comma separated list of fields to sort by. You can specify 
+descending sort by prepending `-` to a field. Not all fields can be sorted on. 
+The endpoint documentation will list supported sort options.
+
+The default sort for all endpoints is descending order of creation.
+
+To get recently updated bookings, sorted in descending order of updated_at:
+
+    GET /bookings?sort=-updated_at
+    
+
+
 # Group Bookings
 Bookings related resources
 
