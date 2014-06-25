@@ -4,6 +4,92 @@ HOST: http://www.google.com
 # Hanmer Accommodation Connector
 The Hanmer Accommodation Connector is a service to keep a variety of accommodation booking engines in sync.
 
+## Authentication
+This API is authenticated using HTTP Basic Auth over HTTPS. Any requests over plain HTTP will fail.
+
+A user's email address and password can be provided as auth credentials, for example:
+
+    $ curl -u email:password https://api.hanmeraccommodation.co.nz/bookings
+
+## Requests
+The base URL of the API is `http://api.hanmeraccommodation.co.nz`
+
+## HTTP Verbs
+We use standard HTTP verbs to indicate intent of a request:
+
++ `GET` - To retrieve a resource or a collection of resources
++ `POST` - To create a resource
++ `PATCH` - To modify a resource
++ `PUT` - To set a resource
++ `DELETE` - To delete a resource 
+
+## Limited HTTP CLients
+If you are using an HTTP client that doesn't support `PUT`, `PATCH` or `DELETE` requests, 
+send a `POST` request with an `X-HTTP-Method-Override` header specifying the desired verb. For example:
+
+    $ curl -u token:X https://site.supportfu.com/api/v1/users/543abc \
+        -X POST \
+        -H "X-HTTP-Method-Override: DELETE"
+
+## HTTP Status Codes
+We use HTTP status codes to indicate success or failure of a request.
+
+**Success codes:**
+
++ `200 OK` - Request succeeded. Response included
++ `201 Created` - Resource created. URL to new resource in Location header
++ `204 No Content` - Request succeeded, but no response body
+
+**Error codes:**
+
++ `400 Bad Request` - Could not parse request
++ `401 Unauthorized` - No authentication credentials provided or authentication failed
++ `403 Forbidden` - Authenticated user does not have access
++ `404 Not Found` - Resource not found
++ `415 Unsupported Media Type` - POST/PUT/PATCH request occurred without a application/json content type
++ `422 Unprocessable Entry` - A request to modify or create a resource failed due to a validation error
++ `429 Too Many Requests` - Request rejected due to rate limiting
++ `500, 501, 502, 503, etc` - An internal server error occured
+
+## Errors
+All 400 series errors (400, 401, 403, etc) will be returned with a JSON object in the body and a application/json content type.
+    
+    {
+        "message": "Not Found"
+    }
+    
+500 series error codes (500, 501, 502, etc) do not return JSON bodies.
+
+## Validation Errors
+In case of validation errors on a POST/PUT/PATCH request, a 422 Unprocessable Entry status code will be returned. 
+The JSON response body will include an array of error messages.
+
+    {
+        "message": "Validation Failed",
+        "errors": [
+          {
+            "message": "Field is not valid"
+          },
+          {
+            "message": "Value for 'name' is not valid"
+          }
+        ]
+    }
+
+## Rate Limiting
+The API is rate limited to 100 credits per minute per account, across all end points, 
+users and tokens. A request is typically worth 1 credit. However, embedding and counting 
+can increase the the amount of required credits for a request. 
+All responses include headers describing the current rate limit status:
+
+>Rate-Limit-Limit: 200
+
+>Rate-Limit-Remaining: 199
+
+>Rate-Limit-Used: 1
+
+>Rate-Limit-Reset: 20
+
 # Group Bookings
 Bookings related resources
 
@@ -12,20 +98,26 @@ Bookings related resources
 ### Create a Booking [POST]
 + Request (application/json)
 
-        { "title": "Buy cheese and bread for breakfast." }
+        { 
+            "extBookingId": "1234"
+            
+        }
         
 + Request (application/xml)
 
-        <title>Buy cheese and bread for breakfast.</title>
+        <extBookingId>1234</extBookingId>
 
 + Response 201 (application/json)
 
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+        { 
+            "id": 3, 
+            "extBookingId": "1234" 
+        }
         
 + Response 201 (application/xml)
         
         <id>3</id>
-        <title>Buy cheese and bread for breakfast.</title>
+        <extBookingId>1234</title>
 
 ## Booking [/bookings/{id}]
 A single Booking object with all its details
