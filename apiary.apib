@@ -274,3 +274,31 @@ Get the Quotation associated with a specific booking
 ### Retrieve Ledger [GET]
 Get the Ledger associated with a specific booking
 + Response 200 (application/json)
+
+# Group Properties
+Properties related resources
+
+## Properties Collection [/properties]
+
+### Create a Property [POST]
++ Request (application/json)
+
+        { 
+            "propertyName": "Example Property Name"
+        }
+        
++ Request (application/xml)
+
+        <propertyName>Example Property Name</propertyName>
+
++ Response 201 (application/json)
+
+        { 
+            "id": 3, 
+            "propertyName": "Example Property Name" 
+        }
+        
++ Response 201 (application/xml)
+        
+        <id>3</id>
+        <propertyName>Example Property Name</propertyName>
