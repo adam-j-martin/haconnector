@@ -195,34 +195,76 @@ To get recently updated bookings, sorted in descending order of updated_at:
     
 
 
+## API Entry Point [/]
+
+### Get Resources [OPTIONS]
+
++ Response 200 (application/hal+json;charset=utf-8)
+
+    + Header
+
+            Allow: Options
+
+    + Body
+
+            {
+              "_links": {
+                "curies": [
+                  {
+                    "name": "doc",
+                    "href": "http://api.hanmeraccommodation.com/docs/{rel}",
+                    "templated": true
+                  }
+                ],
+                "doc:self": { "href": "/"},
+                "doc:bookings": {"href": "/bookings"},
+                "doc:properties": {"href": "/properties"}
+              }
+            }
+
+
 # Group Bookings
 Bookings related resources
 
 ## Bookings Collection [/bookings]
 
+### List available methods for /bookings [OPTIONS]
+
++ Response 200 (application/hal+json)
+    
+    + Header
+
+            Allow: OPTIONS, POST
+
+    + Body
+
+            {
+              "_links": {
+                "curies": [
+                  {
+                    "name": "doc",
+                    "href": "http://api.hanmeraccommodation.com/docs/{rel}",
+                    "templated": true
+                  }
+                ],
+                "doc:self": { "href": "/bookings"}
+              }
+            }
+
 ### Create a Booking [POST]
-+ Request (application/json)
++ Request (application/hal+json)
 
         { 
             "extBookingId": "1234"
             
         }
-        
-+ Request (application/xml)
 
-        <extBookingId>1234</extBookingId>
-
-+ Response 201 (application/json)
++ Response 201 (application/hal+json)
 
         { 
             "id": 3, 
             "extBookingId": "1234" 
         }
-        
-+ Response 201 (application/xml)
-        
-        <id>3</id>
-        <extBookingId>1234</title>
 
 ## Booking [/bookings/{id}]
 A single Booking object with all its details
