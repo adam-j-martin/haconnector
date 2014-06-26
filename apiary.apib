@@ -38,6 +38,7 @@ We use HTTP status codes to indicate success or failure of a request.
 
 + `200 OK` - Request succeeded. Response included
 + `201 Created` - Resource created. URL to new resource in Location header
++ `202 Accepted` - Request accepted, but has not processed (or is still processing)
 + `204 No Content` - Request succeeded, but no response body
 
 **Error codes:**
@@ -370,5 +371,42 @@ A single Booking object with all its details
     + property_id (required, number, `1`) ... Numeric `id` of the Property to perform action with.
 
 ### Retrieve Images [GET]
-Get the Quotation associated with a specific booking
+Get all images associated with a property
 + Response 200 (application/json)
+
+### Upload new images [POST]
+Upload new images
+
++ Request (application/hal+json)
+
+        { 
+            "property_id": "1234"
+            "images": [
+                {
+                    "image": "",
+                    "title": "Example Image 1",
+                    "description": ""
+                },
+                {
+                    "image": "",
+                    "title": "Example Image 2",
+                    "description": ""
+            ]
+            
+        }
+
++ Response 202 (application/hal+json)
+test
+
+    + Header
+
+            Location: /queue/9876
+
+    + Body
+    
+            {
+              "_links": {
+                "self": { "href": "/properties/1234/images/"},
+                "queue": { "href": "/queue/9876"},
+              }
+            }
