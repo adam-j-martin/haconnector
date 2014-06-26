@@ -288,10 +288,6 @@ A single Booking object with all its details
 
         { "title": "Buy cheese and bread for breakfast." }
         
-+ Request (application/xml)
-
-        <title>Buy cheese and bread for breakfast.</title>
-
 + Response 200
 
 
@@ -329,18 +325,50 @@ Properties related resources
             "propertyName": "Example Property Name"
         }
         
-+ Request (application/xml)
-
-        <propertyName>Example Property Name</propertyName>
-
 + Response 201 (application/json)
 
         { 
             "id": 3, 
             "propertyName": "Example Property Name" 
         }
+
+## Property [/properties/{property_id}]
+A single Booking object with all its details
+
++ Parameters
+    + property_id (required, number, `1`) ... Numeric `id` of the Property to perform action with.
+
+### Retrieve Property details [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-My-Header: The Value
+
+    + Body
+
+            { "id": 2, "title": "Pick-up posters from post-office" }
+            
+### Update Property details [PATCH]
++ Request (application/json)
+
+        { "title": "Buy cheese and bread for breakfast." }
         
-+ Response 201 (application/xml)
-        
-        <id>3</id>
-        <propertyName>Example Property Name</propertyName>
++ Request (application/xml)
+
+        <title>Buy cheese and bread for breakfast.</title>
+
++ Response 200
+
+
+### Remove a Property [DELETE]
++ Response 204
+
+## Property Images [/properties/{property_id}/images]
+
++ Parameters
+    + property_id (required, number, `1`) ... Numeric `id` of the Property to perform action with.
+
+### Retrieve Images [GET]
+Get the Quotation associated with a specific booking
++ Response 200 (application/json)
