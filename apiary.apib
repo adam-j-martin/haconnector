@@ -195,7 +195,6 @@ To get recently updated bookings, sorted in descending order of updated_at:
     GET /bookings?sort=-updated_at
     
 
-
 ## API Entry Point [/]
 
 ### Get Resources [OPTIONS]
@@ -223,7 +222,6 @@ To get recently updated bookings, sorted in descending order of updated_at:
               }
             }
 
-
 # Group Bookings
 Bookings related resources
 
@@ -231,7 +229,7 @@ Bookings related resources
 
 ### List available methods for /bookings [OPTIONS]
 
-+ Response 200 (application/hal+json)
++ Response 200 (application/hal+json;charset=utf-8)
     
     + Header
 
@@ -253,14 +251,14 @@ Bookings related resources
             }
 
 ### Create a Booking [POST]
-+ Request (application/hal+json)
++ Request (application/json)
 
         { 
             "extBookingId": "1234"
             
         }
 
-+ Response 201 (application/hal+json)
++ Response 201 (application/hal+json;charset=utf-8)
 
         { 
             "id": 3, 
@@ -274,22 +272,12 @@ A single Booking object with all its details
     + id (required, number, `1`) ... Numeric `id` of the Booking to perform action with.
 
 ### Retrieve a Booking [GET]
-+ Response 200 (application/json)
++ Response 200 (application/hal+json;charset=utf-8)
 
-    + Header
-
-            X-My-Header: The Value
-
-    + Body
-
-            { "id": 2, "title": "Pick-up posters from post-office" }
-            
 ### Update a Booking [PATCH]
 + Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
         
-+ Response 200
++ Response 200 (application/hal+json;charset=utf-8)
 
 
 ### Remove a Booking [DELETE]
@@ -303,7 +291,7 @@ A single quotation with all its details
 
 ### Retrieve Quotation [GET]
 Get the Quotation associated with a specific booking
-+ Response 200 (application/json)
++ Response 200 (application/hal+json;charset=utf-8)
 
 ## Ledger [/bookings/{id}/ledger]
 
@@ -312,7 +300,7 @@ Get the Quotation associated with a specific booking
 
 ### Retrieve Ledger [GET]
 Get the Ledger associated with a specific booking
-+ Response 200 (application/json)
++ Response 200 (application/hal+json;charset=utf-8)
 
 # Group Properties
 Properties related resources
@@ -326,7 +314,7 @@ Properties related resources
             "propertyName": "Example Property Name"
         }
         
-+ Response 201 (application/json)
++ Response 201 (application/hal+json;charset=utf-8)
 
         { 
             "id": 3, 
@@ -340,27 +328,10 @@ A single Booking object with all its details
     + property_id (required, number, `1`) ... Numeric `id` of the Property to perform action with.
 
 ### Retrieve Property details [GET]
-+ Response 200 (application/json)
++ Response 200 (application/hal+json;charset=utf-8)
 
-    + Header
-
-            X-My-Header: The Value
-
-    + Body
-
-            { "id": 2, "title": "Pick-up posters from post-office" }
-            
 ### Update Property details [PATCH]
-+ Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
-        
-+ Request (application/xml)
-
-        <title>Buy cheese and bread for breakfast.</title>
-
-+ Response 200
-
++ Response 200 (application/hal+json;charset=utf-8)
 
 ### Remove a Property [DELETE]
 + Response 204
@@ -372,12 +343,12 @@ A single Booking object with all its details
 
 ### Retrieve Images [GET]
 Get all images associated with a property
-+ Response 200 (application/json)
++ Response 200 (application/hal+json;charset=utf-8)
 
 ### Upload new images [POST]
 Upload new images
 
-+ Request (application/hal+json)
++ Request (application/json)
 
         { 
             "property_id": "1234"
@@ -395,8 +366,7 @@ Upload new images
             
         }
 
-+ Response 202 (application/hal+json)
-test
++ Response 202 (application/hal+json;charset=utf-8)
 
     + Header
 
